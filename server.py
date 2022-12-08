@@ -11,6 +11,7 @@ from pybricks.ev3devices import TouchSensor
 from pybricks.parameters import Port, Button
 from pybricks.tools import wait
 from pybricks.messaging import BluetoothMailboxServer, TextMailbox
+import time
 
 # Initialize server
 server = BluetoothMailboxServer()
@@ -23,11 +24,9 @@ ev3 = EV3Brick()
 
 
 # Initialize EV3 touch sensor and motors
-middleButton = "Off"
-leftButton = 'Off'
-rightButton = 'Off'
-backButton = 'Off'
-forwarButton = 'Off'
+
+def sov():
+    time.sleep(0.005)
 
 # The server must be started before the client!
 print('Waiting for connection...')
@@ -35,43 +34,86 @@ server.wait_for_connection()
 print('Connected!')
 ev3.speaker.set_volume(100)
 ev3.speaker.beep()
+ev3.speaker.say("I'm connected")
 
 # Create a loop to react to buttons
-ev3.screen.print("Midten = ", middleButton)
 while True:
+   
     
-    #print(middleButton)
+    # FERDIG
+
+    if Button.UP in ev3.buttons.pressed():
+        # Console output
+        print("Bak")
+        sov()
+        mbox.send('D = 1')
+    else:
+        sov()
+        mbox.send('D = 0')
+    
+    if Button.DOWN in ev3.buttons.pressed():
+        # Console output
+        print("Fram")
+        sov()
+        mbox.send('F = 1')
+    else:
+        time.sleep(0.05)
+        mbox.send('F = 0')
+    
+    if Button.UP in ev3.buttons.pressed() and Button.RIGHT in ev3.buttons.pressed():
+        # Console output
+        print("Fram Høyre")
+        sov()
+        mbox.send('FH = 1')
+    else:
+        sov()
+        mbox.send('FH = 0')
+    
+    if Button.UP in ev3.buttons.pressed() and Button.LEFT in ev3.buttons.pressed():
+        # Console output
+        print("Fram VENSTRE")
+        sov()
+        mbox.send('FV = 1')
+    else:
+        sov()
+        mbox.send('FV = 0')
+
+    if Button.RIGHT in ev3.buttons.pressed():
+        # Console output
+        print("Høyre")
+        sov()
+        mbox.send('H = 1')
+    else:
+        sov()
+        mbox.send('H = 0')
+    
+    if Button.LEFT in ev3.buttons.pressed():
+        # Console output
+        print("Venstre")
+        sov()
+        mbox.send('L = 1')
+    else:
+        sov()
+        mbox.send('L = 0')
     
     
-    # Setter variabelen for knappen i midten
+
+
+
+
+
+
     if Button.CENTER in ev3.buttons.pressed():
-        print("Midten er trykket")
-        middleButton = 'On'
-        ev3.screen.print("Midten = ", middleButton)
+        # Console output
+        print("Midten")
+        sov()
+        mbox.send('M = 1')
     else:
-        middleButton = 'Off'
-        ev3.screen.print("Midten = ", middleButton)
+        sov()
+        mbox.send('M = 0')
+
     
-    if Button.LEFT in ev3.buttons.pressed():
-        print("Venstre er trykket")
-        leftButton = 'On'
-        ev3.screen.print("Venstre = ", leftButton)
-    else:
-        leftButton = 'Off'
-        ev3.screen.print("Venstre = ", leftButton)
-        
-    # Hvis knappen i midten er på
-    if middleButton == "On":
-        # Send meldingen at knappen er på
-        mbox.send('MIDTEN')
-    # Ellers hvis den ikke er på
-    elif middleButton == "Off":
-        # Send melding at den er av
-        mbox.send('MIDTENAV')
-        
-    if Button.LEFT in ev3.buttons.pressed():
-        mbox.send('EXIT')
-        break
+
 
 # Send message to client to stop
 mbox.send('FERDIG')
