@@ -34,7 +34,6 @@ server.wait_for_connection()
 print('Connected!')
 ev3.speaker.set_volume(100)
 ev3.speaker.beep()
-ev3.speaker.say("I'm connected")
 
 # Create a loop to react to buttons
 while True:
@@ -120,3 +119,6 @@ mbox.send('FERDIG')
 
 # Use the speech tool to signify the program has finished
 # ev3.speaker.say("Program complete")
+
+# Write your program here.
+ev3.speaker.beep()
