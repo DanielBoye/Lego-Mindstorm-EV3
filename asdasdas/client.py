@@ -24,9 +24,6 @@ print('''
 SERVER = 'server'
 
 client = BluetoothMailboxClient()
-motion_box = TextMailbox('motion_command', client)
-lift_box = TextMailbox('lift_command', client)
-claw_box = TextMailbox('claw_command', client)
 
 ev3 = EV3Brick()
 print('Establishing connection...')
@@ -35,19 +32,20 @@ print('Connected!')
 ev3.speaker.set_volume(100)
 ev3.speaker.beep()
 
+motion_box = TextMailbox('motion_command', client)
+lift_box = TextMailbox('lift_command', client)
+
 def sleep_delay():
     time.sleep(0.05)
 
 motorA = Motor(Port.A)
 motorB = Motor(Port.B)
 motorC = Motor(Port.C)
-motorD = Motor(Port.D)
 
 def stop_motors():
     motorA.stop()
     motorB.stop()
     motorC.stop()
-    motorD.stop()
 
 while True:
     # Sjekker om det er nye meldinger uten å vente
@@ -72,25 +70,4 @@ while True:
     else:
         motorC.stop()
 
-    claw_message = claw_box.read()
-    print("claw: ", claw_message)
-    if claw_message == 'True':
-        start_time = time.time()
-        end_time = start_time + 2
-        count = 0
-        while time.time() < end_time:
-            motorD.dc(100)
-        motorD.stop()
-    elif claw_message == 'False': 
-        start_time = time.time()
-        end_time = start_time + 2
-        count = 0
-        while time.time() < end_time:
-            motorD.dc(-100)
-        motorD.stop()
-    
-    else:
-        motorD.stop()
-
-    
     sleep_delay()
