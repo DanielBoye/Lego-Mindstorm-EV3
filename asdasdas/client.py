@@ -52,11 +52,11 @@ while True:
     motion_message = motion_box.read()
     print("m: ",motion_message)
     if motion_message == 'FRAM':
-        motorA.dc(100)
-        motorB.dc(100)
+        motorA.dc(25)
+        motorB.dc(25)
     elif motion_message == 'BAK':
-        motorA.dc(-100)
-        motorB.dc(-100)
+        motorA.dc(-25)
+        motorB.dc(-25)
     else:
         motorA.stop()
         motorB.stop()
@@ -64,9 +64,9 @@ while True:
     lift_message = lift_box.read()
     print("lift: ",lift_message)
     if lift_message == 'OPP':
-        motorC.dc(100)
+        motorC.dc(50)
     elif lift_message == 'NED':
-        motorC.dc(-100)
+        motorC.dc(-50)
     else:
         motorC.stop()
 
